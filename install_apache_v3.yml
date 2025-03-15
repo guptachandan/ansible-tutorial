@@ -1,0 +1,25 @@
+---
+
+- hosts: all
+  become: true
+  tasks:
+
+  - name: update cache & install apache2 package and php packages for Ubuntu
+    apt:
+      update_cache: yes
+      name: 
+        - apache2
+        - libapache2-mod-php
+      state: latest
+      update_cache: yes
+    when: ansible_distribution in ["Debian", "Ubuntu"]
+
+  - name: install httpd and php packages for Oracle Linux
+    dnf:
+      update_cache: yes
+      name:
+      - httpd
+      - php
+      state: latest
+      update_cache: yes
+    when: ansible_distribution  == "OracleLinux"

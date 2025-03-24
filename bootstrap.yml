@@ -1,0 +1,44 @@
+---
+
+- hosts: all
+  become: true
+  pre_tasks:
+
+  - name: install updates (OracleLinux)
+    tags: always
+    dnf:
+      update_only: yes
+      update_cache: yes
+    when: ansible_distribution == "OracleLinux"
+
+  - name: install updates (Ubuntu)
+    tags: always
+    apt:
+      upgrade: dist
+      update_cache: yes
+    when: ansible_distribution == "Ubuntu"
+
+- hosts: all
+  become: true
+  tasks:
+
+  - name: create mishca user
+    tags: always
+    user:
+      name: mishca
+      groups: root
+
+  - name: add ssh key for mishca
+    tags: always
+    authorized_key:
+      user:  mishca
+      key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAII+13mpM8O5KFia2TNQE2UtjLjrV1gHJ1FrRyKvsbGLU vboxuser@Ubuntu" 
+
+  - name: add sudoers file for mishca
+    tags: always
+    copy:
+      src: sudoer_mishca
+      dest: /etc/sudoers.d/mishca
+      owner: root
+      group: root
+      mode: 0440

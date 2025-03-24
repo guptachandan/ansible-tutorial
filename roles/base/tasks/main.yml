@@ -1,0 +1,5 @@
+- name: add ssh key for mishca
+  tags: always
+  authorized_key:
+    user:  mishca
+    key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAII+13mpM8O5KFia2TNQE2UtjLjrV1gHJ1FrRyKvsbGLU vboxuser@Ubuntu"
